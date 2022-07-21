@@ -23,6 +23,7 @@ type (
 		MaxOpenConns    int
 		MaxIdleConns    int
 		MaxConnLifetime time.Duration
+		Debug           bool
 	}
 )
 
@@ -65,6 +66,10 @@ func (g *GormConfig) initDbConnection() {
 
 	if gormDb.Error != nil {
 		zaplog.Sugar.DPanic(gormDb.Error)
+	}
+
+	if g.Debug {
+		gormDb = gormDb.Debug()
 	}
 
 	return
