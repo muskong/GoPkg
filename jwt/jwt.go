@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"sync"
 	"time"
 
@@ -111,12 +112,14 @@ func (j *_jwt) GenerateToken(data interface{}) string {
 	return token
 }
 
-func (j *_jwt) DecodeToken(token string, data *Algorithm) (err error) {
+func (j *_jwt) decodeToken(token string, data *Algorithm) (err error) {
 	dd, err := base64.RawURLEncoding.DecodeString(token)
 	if err != nil {
 		err = errors.New("invalid signature")
 		return
 	}
+
+	fmt.Printf("j.rsa %+v", j.rsa)
 
 	de, err := j.rsa.RsaDecrypt(dd)
 	if err != nil {
@@ -127,9 +130,9 @@ func (j *_jwt) DecodeToken(token string, data *Algorithm) (err error) {
 	return json.Unmarshal(de, &data)
 }
 
-func (j *_jwt) ValidateToken(token string) (err error) {
+func (j *_jwt) ValidateToken(token string) (data *Algorithm, err error) {
 	var a Algorithm
-	err = j.DecodeToken(token, &a)
+	err = j.decodeToken(token, &a)
 	if err != nil {
 		err = errors.New("decode error")
 		return
@@ -144,7 +147,8 @@ func (j *_jwt) ValidateToken(token string) (err error) {
 		err = errors.New("failed to validate nbf" + err.Error())
 	}
 
-	return nil
+	data = &a
+	return
 }
 
 func (j *_jwt) encode() (token string, err error) {
