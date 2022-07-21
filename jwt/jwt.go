@@ -4,7 +4,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"sync"
 	"time"
 
@@ -118,8 +117,6 @@ func (j *_jwt) decodeToken(token string, data *Algorithm) (err error) {
 		err = errors.New("invalid signature")
 		return
 	}
-
-	fmt.Printf("j.rsa %+v", j.rsa)
 
 	de, err := j.rsa.RsaDecrypt(dd)
 	if err != nil {
