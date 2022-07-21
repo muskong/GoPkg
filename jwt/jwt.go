@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
+	"sync"
 	"time"
 
 	"github.com/muskong/GoService/pkg/idworker"
@@ -70,9 +71,16 @@ type (
 	}
 )
 
-var Jwt = &_jwt{}
+var (
+	Jwt     *_jwt
+	jwtOnce sync.Once
+)
 
 func JwtInit(jcfg *JwtConfig) {
+	jwtOnce.Do(jcfg.initJwt)
+}
+
+func (jcfg *JwtConfig) initJwt() {
 	expTime := time.Duration(jcfg.Exp) * time.Hour
 	Jwt = &_jwt{
 		tokenName: jcfg.TokenName,
