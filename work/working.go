@@ -8,9 +8,9 @@ import (
 	"strings"
 
 	"github.com/gorilla/mux"
-	"github.com/muskong/GoService/pkg/jwt"
-	"github.com/muskong/GoService/pkg/utils"
-	"github.com/muskong/GoService/pkg/zaplog"
+	"github.com/muskong/GoPkg/jwt"
+	"github.com/muskong/GoPkg/utils"
+	"github.com/muskong/GoPkg/zaplog"
 )
 
 type (
@@ -57,7 +57,7 @@ func (c *working) CheckAuth() bool {
 		return true
 	}
 
-	err := jwt.Jwt.ValidateToken(token)
+	_, err := jwt.Jwt.ValidateToken(token)
 	if err != nil {
 		c.SetMessage("auth error")
 	}
@@ -68,11 +68,9 @@ func (c *working) CheckAuth() bool {
 func (c *working) GetUserId() interface{} {
 	token := c.Request.Header.Get(c.TokenName)
 
-	var data jwt.Algorithm
-	err := jwt.Jwt.DecodeToken(token, &data)
+	data, err := jwt.Jwt.ValidateToken(token)
 	if err != nil {
 		c.SetMessage("auth error")
-		return 0
 	}
 
 	return data.Sub

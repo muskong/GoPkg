@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/muskong/GoService/pkg/zaplog"
+	"github.com/muskong/GoPkg/zaplog"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )

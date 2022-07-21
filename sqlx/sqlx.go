@@ -5,7 +5,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
-	"github.com/muskong/GoService/pkg/zaplog"
+	"github.com/muskong/GoPkg/zaplog"
 )
 
 var (

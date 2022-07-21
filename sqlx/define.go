@@ -2,7 +2,7 @@ package sqlx
 
 import (
 	"github.com/jmoiron/sqlx"
-	"github.com/muskong/GoService/pkg/zaplog"
+	"github.com/muskong/GoPkg/zaplog"
 )
 
 // BindNamed binds a query using the DB driver's bindvar type.

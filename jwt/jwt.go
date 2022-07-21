@@ -8,8 +8,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/muskong/GoService/pkg/idworker"
-	"github.com/muskong/GoService/pkg/rsa"
+	"github.com/muskong/GoPkg/idworker"
+	"github.com/muskong/GoPkg/rsa"
 )
 
 type (
