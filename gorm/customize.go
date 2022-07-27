@@ -2,8 +2,9 @@ package gorm
 
 import (
 	"database/sql/driver"
-	"encoding/binary"
 	"encoding/json"
+
+	"github.com/spf13/cast"
 )
 
 type (
@@ -23,7 +24,7 @@ func (c *JsonString) Scan(input interface{}) error {
 
 func (c JsonInt64) Value() (driver.Value, error) {
 	b, err := json.Marshal(c)
-	return int64(binary.BigEndian.Uint64(b)), err
+	return cast.ToInt64(string(b)), err
 }
 
 func (c *JsonInt64) Scan(input interface{}) error {
@@ -32,7 +33,7 @@ func (c *JsonInt64) Scan(input interface{}) error {
 
 func (c JsonInt) Value() (driver.Value, error) {
 	b, err := json.Marshal(c)
-	return int(binary.BigEndian.Uint64(b)), err
+	return cast.ToInt(string(b)), err
 }
 
 func (c *JsonInt) Scan(input interface{}) error {
