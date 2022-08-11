@@ -9,14 +9,37 @@ import (
 )
 
 type (
+	NullString string
 	TimeString string
 	JsonString []string
 	JsonInt64  []int64
 	JsonInt    []int
 )
 
+func (c NullString) Value() (driver.Value, error) {
+	if len(c) > 0 {
+		return string(c), nil
+	}
+	return nil, nil
+}
+
+func (c *NullString) Scan(value any) error {
+	if value == nil {
+		return nil
+	}
+	switch s := value.(type) {
+	case time.Time:
+		*c = NullString(s.Format("2006-01-02 15:04:05"))
+		return nil
+	}
+	return nil
+}
+
 func (c TimeString) Value() (driver.Value, error) {
-	return string(c), nil
+	if len(c) > 0 {
+		return string(c), nil
+	}
+	return time.Now().Format("2006-01-02 15:04:05"), nil
 }
 
 func (c *TimeString) Scan(value any) error {

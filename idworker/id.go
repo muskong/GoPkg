@@ -4,7 +4,21 @@ import (
 	"fmt"
 	"math/rand"
 	"time"
+
+	gonanoid "github.com/matoous/go-nanoid/v2"
 )
+
+func Nanoid(size int) string {
+	return gonanoid.MustGenerate("123456789abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ", size)
+}
+
+func NumberNanoid(size int) string {
+	return gonanoid.MustGenerate("123456789", size)
+}
+
+func StringNanoid(size int) string {
+	return gonanoid.MustGenerate("abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ", size)
+}
 
 /**
  * 订单编号`
