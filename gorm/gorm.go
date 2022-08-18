@@ -35,6 +35,10 @@ func ClientNew() *gorm.DB {
 	return gormDb
 }
 
+func NewModel(value any) *gorm.DB {
+	return gormDb.Model(value)
+}
+
 func (g *GormConfig) initDbConnection() {
 	var err error
 	sqlDB, err := sql.Open(g.Driver, g.Dsn)
