@@ -9,12 +9,12 @@ import (
 )
 
 type (
-	NullString string
-	TimeString string
-	JsonMap    []map[string]any
-	JsonString []string
-	JsonInt64  []int64
-	JsonInt    []int
+	NullString    string
+	TimeString    string
+	JsonMapString map[string]string
+	JsonString    []string
+	JsonInt64     []int64
+	JsonInt       []int
 )
 
 func (c NullString) Value() (driver.Value, error) {
@@ -55,12 +55,12 @@ func (c *TimeString) Scan(value any) error {
 	return nil
 }
 
-func (c JsonMap) Value() (driver.Value, error) {
+func (c JsonMapString) Value() (driver.Value, error) {
 	b, err := json.Marshal(c)
 	return string(b), err
 }
 
-func (c *JsonMap) Scan(value any) error {
+func (c *JsonMapString) Scan(value any) error {
 	return json.Unmarshal(value.([]byte), c)
 }
 
