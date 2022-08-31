@@ -105,11 +105,11 @@ func getEnab(level string) zapcore.LevelEnabler {
 func (z *ZapConfig) getLogWriter() zapcore.WriteSyncer {
 	// 日志分割
 	lumberJackLogger := &lumberjack.Logger{
-		Filename:   z.AppName + "_" + z.AppSubName + "_" + z.Logfile, // 日志文件路径，默认 os.TempDir()
-		MaxSize:    z.MaxSize,                                        // 每个日志文件保存10M，默认 100M,
-		MaxBackups: z.MaxBackups,                                     // 保留30个备份，默认不限
-		MaxAge:     z.MaxAge,                                         // 保留7天，默认不限
-		Compress:   z.Compress,                                       // 是否压缩，默认不压缩
+		Filename:   z.Logfile + "/" + z.AppName + "_" + z.AppSubName + ".log", // 日志文件路径，默认 os.TempDir()
+		MaxSize:    z.MaxSize,                                                 // 每个日志文件保存10M，默认 100M,
+		MaxBackups: z.MaxBackups,                                              // 保留30个备份，默认不限
+		MaxAge:     z.MaxAge,                                                  // 保留7天，默认不限
+		Compress:   z.Compress,                                                // 是否压缩，默认不压缩
 	}
 	// return zapcore.NewMultiWriteSyncer(zapcore.AddSync(os.Stdout), zapcore.AddSync(lumberJackLogger)) // 打印到控制台和文件
 	return zapcore.AddSync(lumberJackLogger) // 打印到控制台和文件
