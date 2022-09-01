@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/spf13/cast"
+	"gorm.io/gorm"
 )
 
 type (
@@ -15,6 +16,14 @@ type (
 	JsonString    []string
 	JsonInt64     []int64
 	JsonInt       []int
+
+	Model struct {
+		gorm.Model
+		ID        int        `json:"ID,omitempty" db:"id" gorm:"primarykey"`
+		CreatedAt TimeString `json:"CreatedAt,omitempty" db:"created_at"`
+		UpdatedAt TimeString `json:"UpdatedAt,omitempty" db:"updated_at"`
+		DeletedAt NullString `json:"DeletedAt,omitempty" db:"deleted_at" gorm:"index"`
+	}
 )
 
 func (c NullString) Value() (driver.Value, error) {
