@@ -12,6 +12,7 @@ import (
 type (
 	NullString    string
 	TimeString    string
+	JsonAny       []any
 	JsonMapString map[string]string
 	JsonString    []string
 	JsonInt64     []int64
@@ -62,6 +63,15 @@ func (c *TimeString) Scan(value any) error {
 		return nil
 	}
 	return nil
+}
+
+func (c JsonAny) Value() (driver.Value, error) {
+	b, err := json.Marshal(c)
+	return b, err
+}
+
+func (c *JsonAny) Scan(value any) error {
+	return json.Unmarshal(value.([]byte), c)
 }
 
 func (c JsonMapString) Value() (driver.Value, error) {
