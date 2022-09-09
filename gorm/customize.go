@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"time"
 
+	"github.com/muskong/GoPkg/idworker"
 	"github.com/spf13/cast"
 	"gorm.io/gorm"
 )
@@ -21,11 +22,17 @@ type (
 	Model struct {
 		gorm.Model
 		ID        int        `json:"ID,omitempty" db:"id" gorm:"primarykey"`
+		Uuid      string     `json:"Uuid,omitempty" db:"uuid"`
 		CreatedAt TimeString `json:"CreatedAt,omitempty" db:"created_at"`
 		UpdatedAt TimeString `json:"UpdatedAt,omitempty" db:"updated_at"`
 		DeletedAt NullString `json:"DeletedAt,omitempty" db:"deleted_at" gorm:"index"`
 	}
 )
+
+func (m *Model) BeforeCreate(tx *gorm.DB) (err error) {
+	m.Uuid = idworker.StringNanoid(30)
+	return
+}
 
 func (c NullString) Value() (driver.Value, error) {
 	if len(c) > 0 {
