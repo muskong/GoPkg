@@ -23,7 +23,7 @@ type (
 	}
 )
 
-func (p *PluginApi) post(path string, result *map[string]any) (err error) {
+func (p *PluginApi) Post(path string, result any) (err error) {
 	u, err := url.ParseRequestURI(p.Url)
 	u.Path = path
 
@@ -49,7 +49,7 @@ func (p *PluginApi) post(path string, result *map[string]any) (err error) {
 		return
 	}
 
-	err = json.Unmarshal(rspBody, *result)
+	err = json.Unmarshal(rspBody, result)
 
 	return
 }
